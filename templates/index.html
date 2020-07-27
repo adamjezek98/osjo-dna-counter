@@ -62,7 +62,6 @@
 </body>
 <script>(function () {
 
-
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(8, window.innerWidth / (window.innerHeight * 0.2), 0.1, 1000);
 
@@ -198,13 +197,13 @@
         if (!endGameTimer) {
             endGameTimer = setInterval(() => {
                 let time = new Date(new Date(endGameTime) - (new Date()));
-                document.querySelector('.js-box-1').innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+                document.querySelector('.js-box-1').innerText = time.toISOString().substr(11).split('.')[0];
             }, 1000)
         }
         if (!lastTaskTimer) {
             lastTaskTime = setInterval(() => {
                 let time = new Date(new Date(lastTaskTime) - (new Date()));
-                document.querySelector('.js-box-3').innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+                document.querySelector('.js-box-3').innerText = time.toISOString().substr(11).split('.')[0];
             }, 1000)
         }
 
