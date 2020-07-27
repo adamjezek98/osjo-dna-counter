@@ -3,56 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r58/three.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r58/three.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9353/Detector.js"></script>
     <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
 
         canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 20%;
             width: 100%;
             background-color: #DABDD8;
-            /*transform: rotate(90deg);*/
+            grid-area: helix;
         }
 
-        .box-left {
-            float: left;
-            width: 49%;
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            grid-template-areas: 
+                "helix helix"
+                "box1 box3"
+                "box2 box3";
+            background: #DABDD8;
         }
 
-        .box-right {
-            float: right;
-            width: 49%;
+        .box {
+            display: flex;
+            height: 40vh;
+            justify-content: center;
+            align-items: center;
+            font-size: 5em;
+        }
+
+        .box--1 {
+            grid-area: box1;
+        }
+
+        .box--2 {
+            grid-area: box2;
+            font-size: 7em;
+        }
+
+        .box--3 {
+            grid-area: box3;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-<div id="wrapper">
-<canvas id="helix"></canvas>
-<div style="min-height: 79%; background-color: blue" class="box-left">AAAAAA</div>
-<div style="height: 39%; background-color: green" class="box-right">BBBBB</div>
-<div style="height: 39%; background-color: red" class="box-right">CCCCC</div>
+<div class="main-wrapper">
+    <div class="box box--1 js-box-1">00:00:00</div>
+    <div class="box box--2 js-box-2">0 %</div>
+    <div class="box box--3 js-box-3">00:00:00</div>
 </div>
 
 </body>
-<script>
+<script>(function () {
+
+
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(8, window.innerWidth / (window.innerHeight * 0.2), 0.1, 1000);
 
-    var renderer = Detector.webgl ? new THREE.WebGLRenderer({
+    var renderer = new THREE.WebGLRenderer({
         antialias: true,
-        canvas: document.getElementById("helix")
-    }) : new THREE.CanvasRenderer();
+    });
 
     var blue = 0x84D0F0;
     var yellow = 0xFED162;
     var purple = 0x651E59;
 
     renderer.setSize(window.innerWidth, window.innerHeight * 0.2);
-    document.body.appendChild(renderer.domElement);
+    renderer.domElement.classList.add('helix');
+    document.querySelector('.main-wrapper').insertAdjacentElement('afterbegin', renderer.domElement);
 
     camera.position.z = 200;
 
@@ -82,7 +106,6 @@
 
         var ballLeft = new THREE.Mesh(ballGeometry, new THREE.MeshBasicMaterial({color: ball_color}));
         ballLeft.position.x = -6;
-        ballLeft.userData = "SOASFOBFSBIOABFOASBIO"
 
         var row = new THREE.Object3D();
         row.add(tube1);
@@ -106,29 +129,30 @@
     dna.add(row)
 
 
-    let count = 80;
-    for (var i = 0; i <= count; i++) {
+    let helixPartsCount = 80;
+    for (let i = 0; i <= helixPartsCount; i++) {
         row = helixPart(0xFF00FF, 0xFFFF00, 0x00FFFF);
 
         row.position.y = i * 2;
         row.rotation.y = 30 * i * Math.PI / 180;
 
         dna.add(row);
-
+    }
+    for (let i = 0; i <= helixPartsCount; i++) {
+        setHelixPartVisibility(i, false);
     }
 
-
     row = helixPart(0xFF0000, 0x00FF00, 0x0000FF);
-    row.position.y = (count + 1) * 2;
-    row.rotation.y = 30 * (count + 1) * Math.PI / 180;
+    row.position.y = (helixPartsCount + 1) * 2;
+    row.rotation.y = 30 * (helixPartsCount + 1) * Math.PI / 180;
     dna.add(row)
 
 
-    dna.position.y = -count;
+    dna.position.y = -helixPartsCount;
 
     scene.add(dna);
 
-    dna.position.y = -count;
+    dna.position.y = -helixPartsCount;
     holder.add(dna);
     scene.add(holder);
 
@@ -146,5 +170,37 @@
 
     render();
 
+    let endGameTime = 0;
+    let endGameTimer = null;
+    let lastTime2 = 0;
+    let timer2 = null;
+
+    setInterval(async () => {
+        let resp = await fetch('/status',
+            {
+                method: 'GET',
+                headers: new Headers({
+                    'X-Requested-With': 'XMLHttpRequest'
+                }),
+            });
+        let data = await resp.json();
+
+        endGameTime = data.finishTime;
+        for (let [helixNumber, helixData] of Object.entries(data.helixes)) {
+            setHelixPartVisibility(helixNumber, helixData.finished);
+        }
+
+        let percentageCont = document.querySelector('.js-box-2');
+        percentageCont.innerHTML = Math.trunc(parseFloat(data.progress)) + ' %';
+
+        if (!endGameTimer) {
+            endGameTimer = setTimeout(() => {
+                let time = new Date(new Date(endGameTime) - (new Date()));
+                document.querySelector('.js-box-1').innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+            }, 1000)
+        }
+
+    }, 1000)
+})()
 </script>
 </html>

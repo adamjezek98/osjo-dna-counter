@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import datetime
 import copy
 import json
@@ -78,7 +78,7 @@ save_data(status)
 
 @app.route('/')
 def hello_world():
-    return 'OK'
+    return render_template('index.html')
 
 
 @app.route("/status")
