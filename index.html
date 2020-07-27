@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r58/three.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r58/three.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9353/Detector.js"></script>
+    <style>
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 20%;
+            width: 100%;
+            background-color: #DABDD8;
+            /*transform: rotate(90deg);*/
+        }
+
+        .box-left {
+            float: left;
+            width: 49%;
+        }
+
+        .box-right {
+            float: right;
+            width: 49%;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+<canvas id="helix"></canvas>
+<div style="min-height: 79%; background-color: blue" class="box-left">AAAAAA</div>
+<div style="height: 39%; background-color: green" class="box-right">BBBBB</div>
+<div style="height: 39%; background-color: red" class="box-right">CCCCC</div>
+</div>
+
+</body>
+<script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(8, window.innerWidth / (window.innerHeight * 0.2), 0.1, 1000);
+
+    var renderer = Detector.webgl ? new THREE.WebGLRenderer({
+        antialias: true,
+        canvas: document.getElementById("helix")
+    }) : new THREE.CanvasRenderer();
+
+    var blue = 0x84D0F0;
+    var yellow = 0xFED162;
+    var purple = 0x651E59;
+
+    renderer.setSize(window.innerWidth, window.innerHeight * 0.2);
+    document.body.appendChild(renderer.domElement);
+
+    camera.position.z = 200;
+
+
+    var blueMaterial = new THREE.MeshBasicMaterial({color: blue});
+    var yellowMaterial = new THREE.MeshBasicMaterial({color: yellow});
+    var purpleMaterial = new THREE.MeshBasicMaterial({color: purple});
+
+    var dna = new THREE.Object3D();
+    var holder = new THREE.Object3D();
+
+
+    function helixPart(ball_color, color1, color2) {
+        var tubeGeometry = new THREE.CylinderGeometry(0.3, 0.3, 6, 32);
+        var ballGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+        var tube1 = new THREE.Mesh(tubeGeometry, new THREE.MeshBasicMaterial({color: color1}));
+        tube1.rotation.z = 90 * Math.PI / 180;
+        tube1.position.x = -3;
+
+        var tube2 = new THREE.Mesh(tubeGeometry, new THREE.MeshBasicMaterial({color: color2}));
+        tube2.rotation.z = 90 * Math.PI / 180;
+        tube2.position.x = 3;
+
+
+        var ballRight = new THREE.Mesh(ballGeometry, new THREE.MeshBasicMaterial({color: ball_color}));
+        ballRight.position.x = 6;
+
+        var ballLeft = new THREE.Mesh(ballGeometry, new THREE.MeshBasicMaterial({color: ball_color}));
+        ballLeft.position.x = -6;
+        ballLeft.userData = "SOASFOBFSBIOABFOASBIO"
+
+        var row = new THREE.Object3D();
+        row.add(tube1);
+        row.add(tube2);
+        row.add(ballRight);
+        row.add(ballLeft);
+
+        return row;
+    }
+
+    function setHelixPartVisibility(part_num, v) {
+        for (let i = 0; i < 4; i++) {
+            dna.children[part_num].children[i].visible = v;
+        }
+    }
+
+
+    row = helixPart(0xFF0000, 0x00FF00, 0x0000FF);
+    row.position.y = -2;
+    row.rotation.y = 30 * -1 * Math.PI / 180;
+    dna.add(row)
+
+
+    let count = 80;
+    for (var i = 0; i <= count; i++) {
+        row = helixPart(0xFF00FF, 0xFFFF00, 0x00FFFF);
+
+        row.position.y = i * 2;
+        row.rotation.y = 30 * i * Math.PI / 180;
+
+        dna.add(row);
+
+    }
+
+
+    row = helixPart(0xFF0000, 0x00FF00, 0x0000FF);
+    row.position.y = (count + 1) * 2;
+    row.rotation.y = 30 * (count + 1) * Math.PI / 180;
+    dna.add(row)
+
+
+    dna.position.y = -count;
+
+    scene.add(dna);
+
+    dna.position.y = -count;
+    holder.add(dna);
+    scene.add(holder);
+
+
+    camera.rotation.z = 1.5708
+
+    var render = function () {
+
+        requestAnimationFrame(render);
+
+        holder.rotation.x += 0.0;
+        holder.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    }
+
+    render();
+
+</script>
+</html>
