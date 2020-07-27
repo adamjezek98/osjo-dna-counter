@@ -7,34 +7,36 @@ app = Flask(__name__)
 
 
 def load_data():
-    with open('data.json') as json_file:
-        return json.load(json_file)
+    with open('data.json') as jsonFile:
+        return json.load(jsonFile)
 
 
 def save_data(data):
     with open('data.json', 'w') as outfile:
         json.dump(data, outfile)
 
+
 def refreshProgress():
     status["finished"] = 0
     for h in status["helixes"].values():
         if h["finished"]:
             status["finished"] += 1
-    status["progress"] = (100 * status["finished"]) / status["helix_count"]
+    status["progress"] = (100 * status["finished"]) / status["helixCount"]
+
 
 def updateStatus():
-    status["helix_count"] = len(status["helixes"])
-    status["last_finish"] = status.get("last_finish", None)
-    status["finish_order"] = status.get("finish_order", [])
-    status["last_update"] = datetime.datetime.now().isoformat()
+    status["helixCount"] = len(status["helixes"])
+    status["lastFinish"] = status.get("lastFinish", None)
+    status["finishOrder"] = status.get("finishOrder", [])
+    status["lastUpdate"] = datetime.datetime.now().isoformat()
     refreshProgress()
     # all finished
     if status["progress"] == 100:
-        status["last_finish"] = None
+        status["lastFinish"] = None
 
     # check if helix expired, but only if countdown is running
-    if status["last_finish"]:
-        lf = datetime.datetime.fromisoformat(status["last_finish"])
+    if status["lastFinish"]:
+        lf = datetime.datetime.fromisoformat(status["lastFinish"])
         if lf < datetime.datetime.now():
             unfinishHelix()
             refreshProgress()
@@ -43,30 +45,30 @@ def updateStatus():
 
 def finishHelix(h):
     # skip if finished
-    if str(h) in status["finish_order"]:
+    if str(h) in status["finishOrder"]:
         return
     # mark helix as true and start countdown for it
     status["helixes"][str(h)]["finished"] = True
-    status["finish_order"].append(str(h))
+    status["finishOrder"].append(str(h))
     helix = status["helixes"][str(h)]
     t = status["difficulties"][helix["difficulty"]]
-    status["last_finish"] = (datetime.datetime.now() + datetime.timedelta(seconds=t)).isoformat()
+    status["lastFinish"] = (datetime.datetime.now() + datetime.timedelta(seconds=t)).isoformat()
 
 
 def unfinishHelix():
-    if(len(status["finish_order"])) > 1:
+    if (len(status["finishOrder"])) > 1:
         # called when current helix times out
         # we pop that one out and unfinish it
-        last = str(status["finish_order"].pop())
+        last = str(status["finishOrder"].pop())
         status["helixes"][last]["finished"] = False
 
-    if(len(status["finish_order"])) > 1:
+    if (len(status["finishOrder"])) > 1:
         # then we pop another one and finish him
         # so the countdown for it can start again
-        last = str(status["finish_order"].pop())
+        last = str(status["finishOrder"].pop())
         finishHelix(last)
     else:
-        status["last_finish"] = None
+        status["lastFinish"] = None
         return
 
 
@@ -97,3 +99,16 @@ def finished_helix():
     h = request.form["helix"]
     finishHelix(h)
     return request.form
+
+
+@app.route("/reset", methods=["POST"])
+def reset():
+    print(status)
+    if request.form["reset"] == "2465":
+        status["lastFinish"] = None
+        status["finishOrder"] = []
+        for i in status["helixes"].keys():
+            status["helixes"][i]["finished"] = False
+        updateStatus()
+        return "OK"
+    return "NOK"
