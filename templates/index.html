@@ -172,8 +172,8 @@
 
     let endGameTime = 0;
     let endGameTimer = null;
-    let lastTime2 = 0;
-    let timer2 = null;
+    let lastTaskTime = 0;
+    let lastTaskTimer = null;
 
     setInterval(async () => {
         let resp = await fetch('/status',
@@ -186,6 +186,8 @@
         let data = await resp.json();
 
         endGameTime = data.finishTime;
+        lastTaskTime = data['last_update'];
+
         for (let [helixNumber, helixData] of Object.entries(data.helixes)) {
             setHelixPartVisibility(helixNumber, helixData.finished);
         }
@@ -194,9 +196,15 @@
         percentageCont.innerHTML = Math.trunc(parseFloat(data.progress)) + ' %';
 
         if (!endGameTimer) {
-            endGameTimer = setTimeout(() => {
+            endGameTimer = setInterval(() => {
                 let time = new Date(new Date(endGameTime) - (new Date()));
                 document.querySelector('.js-box-1').innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+            }, 1000)
+        }
+        if (!lastTaskTimer) {
+            lastTaskTime = setInterval(() => {
+                let time = new Date(new Date(lastTaskTime) - (new Date()));
+                document.querySelector('.js-box-3').innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
             }, 1000)
         }
 
