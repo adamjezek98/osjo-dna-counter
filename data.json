@@ -1,1 +1,415 @@
-{"helixes": [{"id": 0, "difficulty": 3, "completed": false}, {"id": 1, "difficulty": 1, "completed": false}, {"id": 2, "difficulty": 0, "completed": true}, {"id": 3, "difficulty": 1, "completed": false}, {"id": 4, "difficulty": 0, "completed": true}, {"id": 5, "difficulty": 3, "completed": true}, {"id": 6, "difficulty": 2, "completed": false}, {"id": 7, "difficulty": 1, "completed": true}, {"id": 8, "difficulty": 3, "completed": false}, {"id": 9, "difficulty": 1, "completed": true}, {"id": 10, "difficulty": 1, "completed": true}, {"id": 11, "difficulty": 1, "completed": true}, {"id": 12, "difficulty": 2, "completed": false}, {"id": 13, "difficulty": 1, "completed": false}, {"id": 14, "difficulty": 1, "completed": false}, {"id": 15, "difficulty": 1, "completed": true}, {"id": 16, "difficulty": 3, "completed": true}, {"id": 17, "difficulty": 2, "completed": false}, {"id": 18, "difficulty": 2, "completed": false}, {"id": 19, "difficulty": 3, "completed": false}, {"id": 20, "difficulty": 1, "completed": false}, {"id": 21, "difficulty": 0, "completed": false}, {"id": 22, "difficulty": 2, "completed": false}, {"id": 23, "difficulty": 2, "completed": false}, {"id": 24, "difficulty": 3, "completed": false}, {"id": 25, "difficulty": 3, "completed": false}, {"id": 26, "difficulty": 3, "completed": false}, {"id": 27, "difficulty": 1, "completed": true}, {"id": 28, "difficulty": 0, "completed": true}, {"id": 29, "difficulty": 1, "completed": true}, {"id": 30, "difficulty": 1, "completed": true}, {"id": 31, "difficulty": 1, "completed": false}, {"id": 32, "difficulty": 1, "completed": true}, {"id": 33, "difficulty": 3, "completed": true}, {"id": 34, "difficulty": 0, "completed": true}, {"id": 35, "difficulty": 3, "completed": false}, {"id": 36, "difficulty": 2, "completed": true}, {"id": 37, "difficulty": 0, "completed": true}, {"id": 38, "difficulty": 3, "completed": false}, {"id": 39, "difficulty": 3, "completed": true}, {"id": 40, "difficulty": 3, "completed": true}, {"id": 41, "difficulty": 0, "completed": true}, {"id": 42, "difficulty": 3, "completed": false}, {"id": 43, "difficulty": 2, "completed": false}, {"id": 44, "difficulty": 0, "completed": false}, {"id": 45, "difficulty": 1, "completed": true}, {"id": 46, "difficulty": 0, "completed": false}, {"id": 47, "difficulty": 0, "completed": true}, {"id": 48, "difficulty": 1, "completed": true}, {"id": 49, "difficulty": 3, "completed": true}, {"id": 50, "difficulty": 1, "completed": false}, {"id": 51, "difficulty": 0, "completed": true}, {"id": 52, "difficulty": 2, "completed": true}, {"id": 53, "difficulty": 1, "completed": true}, {"id": 54, "difficulty": 1, "completed": false}, {"id": 55, "difficulty": 3, "completed": false}, {"id": 56, "difficulty": 2, "completed": true}, {"id": 57, "difficulty": 0, "completed": true}, {"id": 58, "difficulty": 0, "completed": true}, {"id": 59, "difficulty": 0, "completed": false}, {"id": 60, "difficulty": 1, "completed": true}, {"id": 61, "difficulty": 1, "completed": true}, {"id": 62, "difficulty": 3, "completed": false}, {"id": 63, "difficulty": 2, "completed": true}, {"id": 64, "difficulty": 1, "completed": true}, {"id": 65, "difficulty": 2, "completed": true}, {"id": 66, "difficulty": 2, "completed": false}, {"id": 67, "difficulty": 1, "completed": true}, {"id": 68, "difficulty": 2, "completed": false}, {"id": 69, "difficulty": 2, "completed": true}, {"id": 70, "difficulty": 2, "completed": false}, {"id": 71, "difficulty": 2, "completed": true}, {"id": 72, "difficulty": 3, "completed": false}, {"id": 73, "difficulty": 3, "completed": true}, {"id": 74, "difficulty": 3, "completed": true}, {"id": 75, "difficulty": 3, "completed": true}, {"id": 76, "difficulty": 3, "completed": false}, {"id": 77, "difficulty": 0, "completed": true}, {"id": 78, "difficulty": 2, "completed": true}, {"id": 79, "difficulty": 1, "completed": false}, {"id": 80, "difficulty": 0, "completed": false}, {"id": 81, "difficulty": 1, "completed": true}, {"id": 82, "difficulty": 1, "completed": false}, {"id": 83, "difficulty": 3, "completed": false}, {"id": 84, "difficulty": 3, "completed": false}, {"id": 85, "difficulty": 1, "completed": true}, {"id": 86, "difficulty": 2, "completed": false}, {"id": 87, "difficulty": 0, "completed": true}, {"id": 88, "difficulty": 2, "completed": true}, {"id": 89, "difficulty": 0, "completed": true}, {"id": 90, "difficulty": 2, "completed": true}, {"id": 91, "difficulty": 0, "completed": true}, {"id": 92, "difficulty": 2, "completed": false}, {"id": 93, "difficulty": 2, "completed": false}, {"id": 94, "difficulty": 3, "completed": false}, {"id": 95, "difficulty": 3, "completed": true}, {"id": 96, "difficulty": 1, "completed": true}, {"id": 97, "difficulty": 3, "completed": false}, {"id": 98, "difficulty": 0, "completed": true}, {"id": 99, "difficulty": 3, "completed": true}], "difficulties": [5, 10, 15, 30], "finishTime": "2020-07-27T23:59:00.000000", "helix_count": 100, "finished": 55, "progress": 55.0, "last_finish": null}
+{
+  "helixes": {
+    "0": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "1": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "2": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "3": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "4": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "5": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "6": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "7": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "8": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "9": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "10": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "11": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "12": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "13": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "14": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "15": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "16": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "17": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "18": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "19": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "20": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "21": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "22": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "23": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "24": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "25": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "26": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "27": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "28": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "29": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "30": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "31": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "32": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "33": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "34": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "35": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "36": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "37": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "38": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "39": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "40": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "41": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "42": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "43": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "44": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "45": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "46": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "47": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "48": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "49": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "50": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "51": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "52": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "53": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "54": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "55": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "56": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "57": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "58": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "59": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "60": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "61": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "62": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "63": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "64": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "65": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "66": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "67": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "68": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "69": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "70": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "71": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "72": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "73": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "74": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "75": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "76": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "77": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "78": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "79": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "80": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "81": {
+      "difficulty": 3,
+      "completed": true
+    },
+    "82": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "83": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "84": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "85": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "86": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "87": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "88": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "89": {
+      "difficulty": 0,
+      "completed": true
+    },
+    "90": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "91": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "92": {
+      "difficulty": 2,
+      "completed": true
+    },
+    "93": {
+      "difficulty": 0,
+      "completed": false
+    },
+    "94": {
+      "difficulty": 1,
+      "completed": true
+    },
+    "95": {
+      "difficulty": 1,
+      "completed": false
+    },
+    "96": {
+      "difficulty": 3,
+      "completed": false
+    },
+    "97": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "98": {
+      "difficulty": 2,
+      "completed": false
+    },
+    "99": {
+      "difficulty": 2,
+      "completed": true
+    }
+  },
+  "difficulties": [
+    5,
+    10,
+    15,
+    30
+  ],
+  "finishTime": "2020-07-27T23:59:00.000000",
+  "helix_count": 100,
+  "finished": 55,
+  "progress": 55.0,
+  "last_finish": null
+}
