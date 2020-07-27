@@ -10,11 +10,12 @@
             margin: 0;
             width: 100%;
             height: 100%;
+            color: #ffffff;
         }
 
         canvas {
             width: 100%;
-            background-color: #DABDD8;
+            background-color: #000000;
             grid-area: helix;
         }
 
@@ -22,11 +23,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: auto;
-            grid-template-areas: 
-                "helix helix"
-                "box1 box3"
-                "box2 box3";
-            background: #DABDD8;
+            grid-template-areas: "helix helix" "box1 box3" "box2 box4";
+            background: #000000;
         }
 
         .box {
@@ -48,7 +46,19 @@
 
         .box--3 {
             grid-area: box3;
-            height: 100%;
+        }
+
+        .box--4 {
+            grid-area: box4;
+            font-size: 2em;
+            overflow-wrap: break-word;
+        }
+
+        .helix-unfinished {
+            color: #ff1521;
+        }
+        .helix-finished {
+            color: #6dff67;
         }
     </style>
 </head>
@@ -57,10 +67,11 @@
     <div class="box box--1 js-box-1">00:00:00</div>
     <div class="box box--2 js-box-2">0 %</div>
     <div class="box box--3 js-box-3">00:00:00</div>
+    <div class="box box--4 js-box-4">00:00:00</div>
 </div>
 
 </body>
-<script>(function () {
+<script>(async function () {
 
 
     var scene = new THREE.Scene();
@@ -70,9 +81,6 @@
         antialias: true,
     });
 
-    var blue = 0x84D0F0;
-    var yellow = 0xFED162;
-    var purple = 0x651E59;
 
     renderer.setSize(window.innerWidth, window.innerHeight * 0.2);
     renderer.domElement.classList.add('helix');
@@ -81,13 +89,10 @@
     camera.position.z = 200;
 
 
-    var blueMaterial = new THREE.MeshBasicMaterial({color: blue});
-    var yellowMaterial = new THREE.MeshBasicMaterial({color: yellow});
-    var purpleMaterial = new THREE.MeshBasicMaterial({color: purple});
-
     var dna = new THREE.Object3D();
     var holder = new THREE.Object3D();
 
+    window.dna = dna;
 
     function helixPart(ball_color, color1, color2) {
         var tubeGeometry = new THREE.CylinderGeometry(0.3, 0.3, 6, 32);
@@ -126,25 +131,46 @@
     row = helixPart(0xFF0000, 0x00FF00, 0x0000FF);
     row.position.y = -2;
     row.rotation.y = 30 * -1 * Math.PI / 180;
-    dna.add(row)
+    dna.add(row);
 
+    let resp = await fetch('/status',
+        {
+            method: 'GET',
+            headers: new Headers({
+                'X-Requested-With': 'XMLHttpRequest'
+            }),
+        });
+    let data = await resp.json();
 
-    let helixPartsCount = 80;
-    for (let i = 0; i <= helixPartsCount; i++) {
-        row = helixPart(0xFF00FF, 0xFFFF00, 0x00FFFF);
-
-        row.position.y = i * 2;
-        row.rotation.y = 30 * i * Math.PI / 180;
+    let helixPartsCount = data.helixCount;
+    for (let [helixNumber, helixData] of Object.entries(data.helixes)) {
+        let row;
+        console.log(helixData)
+        switch (helixData.difficulty) {
+            case 3:
+                row = helixPart(0xFF00FF, 0xFF0000, 0x00FFFF);
+                break;
+            case 2:
+                row = helixPart(0xFF00FF, 0xFF0000, 0xFFFF00);
+                break;
+            case 1:
+                row = helixPart(0xFF00FF, 0x0000FF, 0xFFFF00);
+                break;
+            default:
+                row = helixPart(0xFF00FF, 0x0000FF, 0x00FFFF);
+        }
+        row.position.y = parseInt(helixNumber, 10) * 2;
+        row.rotation.y = 30 * parseInt(helixNumber, 10) * Math.PI / 180;
 
         dna.add(row);
     }
-    for (let i = 0; i <= helixPartsCount; i++) {
-        setHelixPartVisibility(i, false);
+    for (let i = 0; i < helixPartsCount; i++) {
+        setHelixPartVisibility(i, true);
     }
 
     row = helixPart(0xFF0000, 0x00FF00, 0x0000FF);
-    row.position.y = (helixPartsCount + 1) * 2;
-    row.rotation.y = 30 * (helixPartsCount + 1) * Math.PI / 180;
+    row.position.y = (helixPartsCount) * 2;
+    row.rotation.y = 30 * (helixPartsCount) * Math.PI / 180;
     dna.add(row)
 
 
@@ -187,10 +213,13 @@
 
         endGameTime = data.finishTime;
         lastTaskTime = data['last_update'];
-
+        let helixesTest = "";
         for (let [helixNumber, helixData] of Object.entries(data.helixes)) {
-            setHelixPartVisibility(helixNumber, helixData.finished);
+            setHelixPartVisibility(parseInt(helixNumber, 10) + 1, helixData.finished);
+            helixesTest += ` <span class="helix-${helixData.finished ? '' : 'un'}finished">${parseInt(helixNumber) + 1}, </span>`
         }
+
+        document.querySelector('.js-box-4').innerHTML = "<p>"+helixesTest+"</p>";
 
         let percentageCont = document.querySelector('.js-box-2');
         percentageCont.innerHTML = Math.trunc(parseFloat(data.progress)) + ' %';
@@ -209,6 +238,8 @@
         }
 
     }, 1000)
+
+
 })()
 </script>
 </html>
