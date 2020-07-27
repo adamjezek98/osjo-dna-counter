@@ -21,7 +21,7 @@ def refreshProgress():
     for h in status["helixes"].values():
         if h["finished"]:
             status["finished"] += 1
-    status["progress"] = (100 * status["finished"]) / status["helixCount"]
+    status["progress"] = "%.2f" % round((100 * status["finished"]) / status["helixCount"], 2)
 
 
 def updateStatus():

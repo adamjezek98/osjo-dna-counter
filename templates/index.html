@@ -11,6 +11,7 @@
             width: 100%;
             height: 100%;
             color: #ffffff;
+            text-align: center;
         }
 
         canvas {
@@ -57,6 +58,7 @@
         .helix-unfinished {
             color: #ff1521;
         }
+
         .helix-finished {
             color: #6dff67;
         }
@@ -211,29 +213,26 @@
         let data = await resp.json();
 
         endGameTime = data.finishTime;
-        lastTaskTime = data['last_update'];
+        lastTaskTime = data['lastFinish'];
         let helixesTest = "";
         for (let [helixNumber, helixData] of Object.entries(data.helixes)) {
             setHelixPartVisibility(parseInt(helixNumber, 10) + 1, helixData.finished);
             helixesTest += ` <span class="helix-${helixData.finished ? '' : 'un'}finished">${parseInt(helixNumber) + 1}, </span>`
         }
 
-        document.querySelector('.js-box-4').innerHTML = "<p>"+helixesTest+"</p>";
+        document.querySelector('.js-box-4').innerHTML = "<p>" + helixesTest + "</p>";
 
         let percentageCont = document.querySelector('.js-box-2');
-        percentageCont.innerHTML = Math.trunc(parseFloat(data.progress)) + ' %';
+        percentageCont.innerText = "Postup:\r\n" + data.progress + ' %';
 
-        if (!endGameTimer) {
-            endGameTimer = setInterval(() => {
-                let time = new Date(new Date(endGameTime) - (new Date()));
-                document.querySelector('.js-box-1').innerText = time.toISOString().substr(11).split('.')[0];
-            }, 1000)
-        }
-        if (!lastTaskTimer) {
-            lastTaskTime = setInterval(() => {
-                let time = new Date(new Date(lastTaskTime) - (new Date()));
-                document.querySelector('.js-box-3').innerText = time.toISOString().substr(11).split('.')[0];
-            }, 1000)
+        let time = new Date(new Date(endGameTime) - (new Date()));
+        document.querySelector('.js-box-1').innerText = "Do konce:\r\n" + time.toISOString().substr(11).split('.')[0];
+        if (lastTaskTime) {
+            let time = new Date(new Date(lastTaskTime) - (new Date()));
+            document.querySelector('.js-box-3').innerText = "Vyprší za:\r\n" + time.toISOString().substr(11).split('.')[0];
+        } else {
+            document.querySelector('.js-box-3').innerText = ""
+
         }
 
     }, 1000)
