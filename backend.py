@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 import datetime
-import copy
 import json
+from playsound import playsound
 
 app = Flask(__name__)
 
@@ -61,6 +61,7 @@ def finishHelix(h):
 
 def unfinishHelix():
     if (len(status["finishOrder"])) > 0:
+        playsound("foghorn.mp3")
         # called when current helix times out
         # we pop that one out and unfinish it
         last = str(status["finishOrder"].pop())
