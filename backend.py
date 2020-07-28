@@ -7,11 +7,13 @@ app = Flask(__name__)
 
 
 def load_data():
+    print("loading data")
     with open('data.json') as jsonFile:
         return json.load(jsonFile)
 
 
 def save_data(data):
+    print("saving data")
     with open('data.json', 'w') as outfile:
         json.dump(data, outfile)
 
@@ -33,6 +35,7 @@ def updateStatus():
     # all finished
     if status["progress"] == 100:
         status["lastFinish"] = None
+        save_data(status)
 
     # check if helix expired, but only if countdown is running
     if status["lastFinish"]:
@@ -40,11 +43,12 @@ def updateStatus():
         if lf < datetime.datetime.now():
             unfinishHelix()
             refreshProgress()
-    save_data(status)
+            save_data(status)
 
 
 def finishHelix(h):
     # skip if finished
+    save_data(status)
     if str(h) in status["finishOrder"]:
         return
     # mark helix as true and start countdown for it
@@ -56,13 +60,13 @@ def finishHelix(h):
 
 
 def unfinishHelix():
-    if (len(status["finishOrder"])) > 1:
+    if (len(status["finishOrder"])) > 0:
         # called when current helix times out
         # we pop that one out and unfinish it
         last = str(status["finishOrder"].pop())
         status["helixes"][last]["finished"] = False
 
-    if (len(status["finishOrder"])) > 1:
+    if (len(status["finishOrder"])) > 0:
         # then we pop another one and finish him
         # so the countdown for it can start again
         last = str(status["finishOrder"].pop())
@@ -83,9 +87,13 @@ def hello_world():
     return render_template('index.html')
 
 
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+
 @app.route("/status")
 def get_status():
-    print(status)
     # so we will kinda rely on periodical status check from FE and use it as hearbeat
     # without FE there is no need to have fresh data anyway, so it should be fine
     # except for helixes timeout if FE is dead for long time... YOLO
@@ -94,11 +102,13 @@ def get_status():
     return jsonify(status)
 
 
-@app.route("/finish", methods=["POST"])
+@app.route("/finish", methods=["POST", "GET"])
 def finished_helix():
-    h = request.form["helix"]
-    finishHelix(h)
-    return request.form
+    h = request.form.get("helix", None)
+    if h:
+        h = int(h) - 1
+        finishHelix(h)
+    return render_template('admin.html')
 
 
 @app.route("/reset", methods=["POST"])
@@ -112,3 +122,16 @@ def reset():
         updateStatus()
         return "OK"
     return "NOK"
+
+
+@app.route("/reload")
+def reload():
+    global status
+    status = load_data()
+    return "OK"
+
+
+@app.route("/save")
+def save():
+    save_data(status)
+    return "OK"
